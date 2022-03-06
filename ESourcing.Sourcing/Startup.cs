@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ESourcing.Sourcing.Data.Interface;
+using ESourcing.Sourcing.Entities;
+using ESourcing.Sourcing.Repositories;
+using ESourcing.Sourcing.Repositories.Interfaces;
 using ESourcing.Sourcing.Settings;
 using Microsoft.Extensions.Options;
 
@@ -33,6 +36,9 @@ namespace ESourcing.Sourcing
                 sp.GetRequiredService<IOptions<SourcingDatabaseSettings>>().Value);
 
             services.AddTransient<ISourcingContext, ISourcingContext>();
+
+            services.AddTransient<IAuctionRepository, AuctionRepository>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
