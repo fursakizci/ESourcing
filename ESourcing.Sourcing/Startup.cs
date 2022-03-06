@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ESourcing.Sourcing.Data.Interface;
 using ESourcing.Sourcing.Settings;
 using Microsoft.Extensions.Options;
 
@@ -27,10 +28,11 @@ namespace ESourcing.Sourcing
             services.AddRazorPages();
 
             services.Configure<ISourcingDatabaseSettings>(Configuration.GetSection(nameof(SourcingDatabaseSettings)));
-
             
             services.AddSingleton<ISourcingDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<SourcingDatabaseSettings>>().Value);
+
+            services.AddTransient<ISourcingContext, ISourcingContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
