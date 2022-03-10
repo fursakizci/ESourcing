@@ -14,6 +14,7 @@ namespace ESourcing.Sourcing.Entities
         public string Id { get; set; }
         public string AuctionId { get; set; }
         public string ProductId { get; set; }
+        public string SellerUserName { get; set; }
         public DateTime CreatedAt { get; set; }
         public int Price { get; set; }
     }

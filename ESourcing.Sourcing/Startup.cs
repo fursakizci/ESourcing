@@ -13,6 +13,7 @@ using ESourcing.Sourcing.Repositories;
 using ESourcing.Sourcing.Repositories.Interfaces;
 using ESourcing.Sourcing.Settings;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace ESourcing.Sourcing
 {
@@ -35,10 +36,28 @@ namespace ESourcing.Sourcing
             services.AddSingleton<ISourcingDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<SourcingDatabaseSettings>>().Value);
 
+            #region ProjectDependencies
+
             services.AddTransient<ISourcingContext, ISourcingContext>();
 
             services.AddTransient<IAuctionRepository, AuctionRepository>();
-            
+
+            services.AddTransient<IBidRepository, BidRepository>();
+
+            #endregion
+
+            #region Swagger Dependecies
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1",new OpenApiInfo
+                {
+                    Title = "ESourcing.Sourcing",
+                    Version = "V1"
+                });
+            });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,10 +66,6 @@ namespace ESourcing.Sourcing
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
@@ -62,6 +77,12 @@ namespace ESourcing.Sourcing
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json","Sourcing API V1");
             });
         }
     }
