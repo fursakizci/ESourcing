@@ -3,17 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ESourcing.Sourcing.Data.Interface;
-using ESourcing.Sourcing.Entities;
 using ESourcing.Sourcing.Repositories;
 using ESourcing.Sourcing.Repositories.Interfaces;
 using ESourcing.Sourcing.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using ESourcing.Sourcing.Data;
 
 namespace ESourcing.Sourcing
 {
@@ -38,7 +34,7 @@ namespace ESourcing.Sourcing
 
             #region ProjectDependencies
 
-            services.AddTransient<ISourcingContext, ISourcingContext>();
+            services.AddTransient<ISourcingContext, SourcingContext>();
 
             services.AddTransient<IAuctionRepository, AuctionRepository>();
 
@@ -47,6 +43,8 @@ namespace ESourcing.Sourcing
             #endregion
 
             #region Swagger Dependecies
+
+            services.AddControllers();
 
             services.AddSwaggerGen(s =>
             {
@@ -65,6 +63,11 @@ namespace ESourcing.Sourcing
         {
             if (env.IsDevelopment())
             {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sourcing API V1");
+                });
                 app.UseDeveloperExceptionPage();
             }
 
@@ -79,11 +82,7 @@ namespace ESourcing.Sourcing
                 endpoints.MapRazorPages();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json","Sourcing API V1");
-            });
+            
         }
     }
 }
