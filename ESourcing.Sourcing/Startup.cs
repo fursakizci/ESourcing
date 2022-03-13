@@ -51,7 +51,7 @@ namespace ESourcing.Sourcing
                 s.SwaggerDoc("v1",new OpenApiInfo
                 {
                     Title = "ESourcing.Sourcing",
-                    Version = "V1"
+                    Version = "v1"
                 });
             });
 
@@ -63,15 +63,15 @@ namespace ESourcing.Sourcing
         {
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sourcing API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ESourcing.Sourcing v1");
                 });
-                app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -79,10 +79,8 @@ namespace ESourcing.Sourcing
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
-
-            
         }
     }
 }

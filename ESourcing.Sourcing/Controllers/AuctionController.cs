@@ -1,20 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using ESourcing.Sourcing.Entities;
 using ESourcing.Sourcing.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
-using ILogger = DnsClient.Internal.ILogger;
-using LoggerExtensions = DnsClient.Internal.LoggerExtensions;
 
 namespace ESourcing.Sourcing.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AuctionController : Controller
+    public class AuctionController : ControllerBase
     {
 
         private readonly IAuctionRepository _auctionRepository;
@@ -29,7 +25,7 @@ namespace ESourcing.Sourcing.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Auction>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Auction), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Auction>>> GetAuctions()
         {
             var auctions = await _auctionRepository.GetAuctions();
