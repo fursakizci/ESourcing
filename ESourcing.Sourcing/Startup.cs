@@ -27,10 +27,8 @@ namespace ESourcing.Sourcing
         {
             services.AddRazorPages();
 
-            services.Configure<ISourcingDatabaseSettings>(Configuration.GetSection(nameof(SourcingDatabaseSettings)));
-            
-            services.AddSingleton<ISourcingDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<SourcingDatabaseSettings>>().Value);
+            services.Configure<SourcingDatabaseSettings>(Configuration.GetSection(nameof(SourcingDatabaseSettings)));
+            services.AddSingleton<ISourcingDatabaseSettings>(sp =>sp.GetRequiredService<IOptions<SourcingDatabaseSettings>>().Value);
 
             #region ProjectDependencies
 
